@@ -3,7 +3,7 @@ import _ from 'lodash'
 import { mergeConfig } from '@/utils'
 
 export const DEFAULT_CONFIG = {
-  minGiftPrice: 7, // $1
+  minGiftPrice: 0.1, // $1
   showDanmaku: true,
   showGift: true,
   showGiftName: false,
@@ -19,7 +19,7 @@ export const DEFAULT_CONFIG = {
   blockUsers: '',
   blockMedalLevel: 0,
 
-  relayMessagesByServer: false,
+  relayMessagesByServer: true,
   autoTranslate: false,
   giftUsernamePronunciation: '',
 

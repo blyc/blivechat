@@ -184,7 +184,7 @@ export default {
       },
       form: {
         ...chatConfig.getLocalConfig(),
-        roomId: parseInt(window.localStorage.roomId || '1')
+        roomId: parseInt(window.localStorage.roomId || '22754458')
       }
     }
   },

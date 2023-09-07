@@ -64,7 +64,7 @@ class LiveClient(blivedm.BLiveClient):
     HEARTBEAT_INTERVAL = 10
 
     def __init__(self, room_id):
-        super().__init__(room_id, uid=0, session=utils.request.http_session, heartbeat_interval=self.HEARTBEAT_INTERVAL)
+        super().__init__(room_id, uid=None, session=utils.request.http_session, heartbeat_interval=self.HEARTBEAT_INTERVAL)
 
     async def init_room(self):
         await super().init_room()

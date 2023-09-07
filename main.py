@@ -46,7 +46,7 @@ def main():
     services.translate.init()
     services.chat.init()
 
-    update.check_update()
+    # update.check_update()
 
     run_server(args.host, args.port, args.debug)
 
