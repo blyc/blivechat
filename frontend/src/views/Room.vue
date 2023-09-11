@@ -10,9 +10,7 @@ import * as pronunciation from '@/utils/pronunciation'
 import * as chatConfig from '@/api/chatConfig'
 import * as chat from '@/api/chat'
 import ChatClientTest from '@/api/chat/ChatClientTest'
-import ChatClientDirectWeb from '@/api/chat/ChatClientDirectWeb'
 import ChatClientDirectOpenLive from '@/api/chat/ChatClientDirectOpenLive'
-import ChatClientRelay from '@/api/chat/ChatClientRelay'
 import ChatRenderer from '@/components/ChatRenderer'
 import * as constants from '@/components/ChatRenderer/constants'
 
@@ -146,18 +144,8 @@ export default {
     initChatClient() {
       if (this.roomKeyValue === null) {
         this.chatClient = new ChatClientTest()
-      } else if (this.config.relayMessagesByServer) {
-        let roomKey = {
-          type: this.roomKeyType,
-          value: this.roomKeyValue
-        }
-        this.chatClient = new ChatClientRelay(roomKey, this.config.autoTranslate)
       } else {
-        if (this.roomKeyType === 1) {
-          this.chatClient = new ChatClientDirectWeb(this.roomKeyValue)
-        } else {
-          this.chatClient = new ChatClientDirectOpenLive(this.roomKeyValue)
-        }
+        this.chatClient = new ChatClientDirectOpenLive(this.roomKeyValue)
       }
       this.chatClient.onAddText = this.onAddText
       this.chatClient.onAddGift = this.onAddGift

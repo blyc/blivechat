@@ -4,35 +4,6 @@
       <el-form :model="form" ref="form" label-width="150px">
         <el-tabs type="border-card">
           <el-tab-pane :label="$t('home.general')">
-            <el-form-item :label="$t('home.room')" required :prop="form.roomKeyType === 1 ? 'roomId' : 'authCode'">
-              <template slot="label">{{ $t('home.room') }}
-                <router-link :to="{ name: 'help' }">
-                  <i class="el-icon-question"></i>
-                </router-link>
-              </template>
-              <el-row>
-                <el-col :span="6">
-                  <el-select v-model="form.roomKeyType" style="width: 100%">
-                    <el-option :label="$t('home.authCode')" :value="2"></el-option>
-                    <el-option :label="$t('home.roomId')" :value="1"></el-option>
-                  </el-select>
-                </el-col>
-                <el-col :span="18">
-                  <el-input v-if="form.roomKeyType === 1"
-                    v-model.number="form.roomId" type="number" min="1" :rules="[
-                      {required: true, message: $t('home.roomIdEmpty'), trigger: 'blur'},
-                      {type: 'integer', min: 1, message: $t('home.roomIdInteger'), trigger: 'blur'}
-                    ]"
-                  ></el-input>
-                  <el-input v-else
-                    v-model.number="form.authCode" :rules="[
-                      {required: true, message: $t('home.authCodeEmpty'), trigger: 'blur'}
-                    ]"
-                  ></el-input>
-                </el-col>
-              </el-row>
-              <el-row v-if="form.roomKeyType === 1" style="color: red">{{ $t('home.useAuthCodeWarning') }}</el-row>
-            </el-form-item>
             <el-row :gutter="20">
               <el-col :xs="24" :sm="8">
                 <el-form-item :label="$t('home.showDanmaku')">
@@ -114,28 +85,6 @@
             </el-form-item>
           </el-tab-pane>
 
-          <el-tab-pane :label="$t('home.advanced')">
-            <el-row :gutter="20">
-              <el-col :xs="24" :sm="8">
-                <el-form-item :label="$t('home.relayMessagesByServer')">
-                  <el-switch v-model="form.relayMessagesByServer"></el-switch>
-                </el-form-item>
-              </el-col>
-              <el-col :xs="24" :sm="8">
-                <el-form-item :label="$t('home.autoTranslate')">
-                  <el-switch v-model="form.autoTranslate" :disabled="!serverConfig.enableTranslate || !form.relayMessagesByServer"></el-switch>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-form-item :label="$t('home.giftUsernamePronunciation')">
-              <el-radio-group v-model="form.giftUsernamePronunciation">
-                <el-radio label="">{{$t('home.dontShow')}}</el-radio>
-                <el-radio label="pinyin">{{$t('home.pinyin')}}</el-radio>
-                <el-radio label="kana">{{$t('home.kana')}}</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-tab-pane>
-
           <el-tab-pane :label="$t('home.emoticon')">
             <el-table :data="form.emoticons">
               <el-table-column prop="keyword" :label="$t('home.emoticonKeyword')" width="170">
@@ -196,6 +145,16 @@ import * as chatConfig from '@/api/chatConfig'
 
 export default {
   name: 'Home',
+  props: {
+    Code: {
+      type: String,
+      default: ''
+    },
+    plug_env: {
+      type: Number,
+      default: 1
+    },
+  },
   data() {
     return {
       serverConfig: {
@@ -205,19 +164,13 @@ export default {
       },
       form: {
         ...chatConfig.getLocalConfig(),
-        roomKeyType: parseInt(window.localStorage.roomKeyType || '2'),
-        roomId: parseInt(window.localStorage.roomId || '1'),
         authCode: window.localStorage.authCode || '',
       }
     }
   },
   computed: {
     roomKeyValue() {
-      if (this.form.roomKeyType === 1) {
-        return this.form.roomId
-      } else {
-        return this.form.authCode
-      }
+      return this.form.authCode
     },
     roomUrl() {
       return this.getRoomUrl(false)
@@ -236,14 +189,18 @@ export default {
   },
   watch: {
     roomUrl: _.debounce(function() {
-      window.localStorage.roomKeyType = this.form.roomKeyType
-      window.localStorage.roomId = this.form.roomId
       window.localStorage.authCode = this.form.authCode
       chatConfig.setLocalConfig(this.form)
     }, 500)
   },
   mounted() {
+    if (this.Code) {
+      this.form.authCode = this.Code
+    }
     this.updateServerConfig()
+    if (this.plug_env === 0) {
+      location.href = this.obsRoomUrl
+    }
   },
   methods: {
     async updateServerConfig() {
@@ -303,7 +260,6 @@ export default {
         emoticons: JSON.stringify(this.form.emoticons),
         lang: this.$i18n.locale
       }
-      delete query.roomId
       delete query.authCode
 
       let resolved
@@ -347,8 +303,8 @@ export default {
       chatConfig.sanitizeConfig(cfg)
       this.form = {
         ...cfg,
-        roomKeyType: this.form.roomKeyType,
-        roomId: this.form.roomId,
+        roomKeyType: 2,
+        roomId: 0,
         authCode: this.form.authCode
       }
     }

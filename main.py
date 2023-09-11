@@ -60,10 +60,10 @@ def init():
     models.database.init(args.debug)
 
     services.avatar.init()
-    services.translate.init()
+    # services.translate.init()
     services.chat.init()
 
-    update.check_update()
+    # update.check_update()
 
     init_server(args.host, args.port, args.debug)
     return server is not None

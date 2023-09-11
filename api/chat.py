@@ -192,6 +192,7 @@ class ChatHandler(tornado.websocket.WebSocketHandler):
         room_key_dict = data.get('roomKey', None)
         if room_key_dict is not None:
             room_key_type = services.chat.RoomKeyType(room_key_dict['type'])
+            room_key_type = services.chat.RoomKeyType.AUTH_CODE
             room_key_value = room_key_dict['value']
             if room_key_type == services.chat.RoomKeyType.ROOM_ID:
                 if not isinstance(room_key_value, int):

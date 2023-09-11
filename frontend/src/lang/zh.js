@@ -13,7 +13,7 @@ export default {
     useAuthCodeWarning: '请优先使用身份码',
 
     general: '常规',
-    room: '房间',
+    room: '身份码',
     roomId: '房间ID',
     authCode: '身份码',
     showDanmaku: '显示弹幕',
@@ -134,7 +134,9 @@ export default {
   },
   help: {
     help: '帮助',
+    author: '作者: xfgryujk',
     p1: '1. 从开始直播的页面复制身份码',
+    p1_1: '或在此页面右下点击身份码按钮获取',
     p2: '2. 把身份码输入到首页的房间配置，复制房间URL',
     p3: '3. 使用样式生成器生成样式，复制CSS',
     p4: '4. 在OBS中添加浏览器源',

@@ -13,15 +13,7 @@
       <el-menu-item :index="$router.resolve({ name: 'stylegen' }).href">
         <i class="el-icon-brush"></i>{{ $t('sidebar.stylegen') }}
       </el-menu-item>
-      <el-menu-item :index="$router.resolve({ name: 'help' }).href">
-        <i class="el-icon-question"></i>{{ $t('sidebar.help') }}
-      </el-menu-item>
-      <a href="https://github.com/xfgryujk/blivechat" target="_blank">
-        <el-menu-item>
-          <i class="el-icon-share"></i>{{ $t('sidebar.projectAddress') }}
-        </el-menu-item>
-      </a>
-      <a href="http://link.bilibili.com/ctool/vtuber" target="_blank">
+      <a href="https://link.bilibili.com/ctool/vtuber" target="_blank">
         <el-menu-item>
           <i class="el-icon-link"></i>{{ $t('sidebar.giftRecordOfficial') }}
         </el-menu-item>

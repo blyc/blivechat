@@ -13,7 +13,7 @@ export default {
     useAuthCodeWarning: 'Please prioritize the identity code',
 
     general: 'General',
-    room: 'Room',
+    room: 'Identity code',
     roomId: 'Room ID',
     authCode: 'Identity code',
     showDanmaku: 'Show messages',
@@ -134,7 +134,9 @@ export default {
   },
   help: {
     help: 'Help',
+    author: 'Author: xfgryujk',
     p1: '1. Copy the identity code (身份码) from the webpage where you start streaming',
+    p1_1: 'Or on this page click on the ID code button to obtain it',
     p2: '2. Enter the identity code into the room configuration on the home page. Copy the room URL',
     p3: '3. Generate styles with the style generator. Copy the CSS',
     p4: '4. Add browser source in OBS',

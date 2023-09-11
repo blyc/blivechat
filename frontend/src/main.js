@@ -12,7 +12,6 @@ import App from './App'
 import Layout from './layout'
 import Home from './views/Home'
 import StyleGenerator from './views/StyleGenerator'
-import Help from './views/Help'
 import Room from './views/Room'
 import NotFound from './views/NotFound'
 
@@ -65,10 +64,15 @@ const router = new VueRouter({
       path: '/',
       component: Layout,
       children: [
-        { path: '', name: 'home', component: Home },
-        { path: 'stylegen', name: 'stylegen', component: StyleGenerator },
-        { path: 'help', name: 'help', component: Help }
-      ]
+        { path: '', name: 'home', component: Home,
+          props(route) {
+            let Code = route.query.Code || null
+            let plug_env = parseInt(route.query.plug_env) === 0 ? parseInt(route.query.plug_env) : 1
+            return { Code, plug_env }
+          }
+        },
+        { path: 'stylegen', name: 'stylegen', component: StyleGenerator }
+      ],
     },
     {
       path: '/room/test',
@@ -81,17 +85,8 @@ const router = new VueRouter({
       name: 'room',
       component: Room,
       props(route) {
-        let roomKeyType = parseInt(route.query.roomKeyType) || 1
-        if (roomKeyType < 1 || roomKeyType > 2) {
-          roomKeyType = 1
-        }
-
-        let roomKeyValue = route.params.roomKeyValue
-        if (roomKeyType === 1) {
-          roomKeyValue = parseInt(roomKeyValue) || null
-        } else {
-          roomKeyValue = roomKeyValue || null
-        }
+        let roomKeyType = 2
+        let roomKeyValue = route.params.roomKeyValue || null
         return { roomKeyType, roomKeyValue, strConfig: route.query }
       }
     },
